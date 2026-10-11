@@ -1,0 +1,272 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/*
+  Brand accent. The Roccul logo files could not be downloaded in this environment,
+  so this is a restrained stand-in. Change --accent here to retune the whole app.
+*/
+:root {
+  --accent: #3a8dff;
+  --accent-rgb: 58, 141, 255;
+  --ok: #34c759;
+  --warn: #ff9500;
+  --bad: #ff3b30;
+
+  --bg: #eceef2;
+  --fg: #0d0e10;
+  --fg2: rgba(28, 30, 36, 0.66);
+  --fg3: rgba(28, 30, 36, 0.42);
+  --glass: rgba(255, 255, 255, 0.58);
+  --glass-strong: rgba(255, 255, 255, 0.8);
+  --glass-solid: rgba(250, 250, 252, 0.94);
+  --hairline: rgba(15, 20, 30, 0.08);
+  --highlight: rgba(255, 255, 255, 0.9);
+  --fill: rgba(15, 20, 30, 0.045);
+  --fill2: rgba(15, 20, 30, 0.08);
+  --shadow: 0 1px 2px rgba(15, 20, 30, 0.04), 0 18px 50px -18px rgba(15, 20, 30, 0.18);
+  --field-a: rgba(var(--accent-rgb), 0.22);
+  --field-b: rgba(120, 180, 255, 0.2);
+  --field-c: rgba(255, 190, 140, 0.16);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --ok: #30d158;
+  --warn: #ff9f0a;
+  --bad: #ff453a;
+  --bg: #0b0c0e;
+  --fg: #f5f5f7;
+  --fg2: rgba(235, 235, 245, 0.64);
+  --fg3: rgba(235, 235, 245, 0.38);
+  --glass: rgba(30, 32, 37, 0.5);
+  --glass-strong: rgba(36, 38, 44, 0.78);
+  --glass-solid: rgba(32, 34, 39, 0.94);
+  --hairline: rgba(255, 255, 255, 0.08);
+  --highlight: rgba(255, 255, 255, 0.06);
+  --fill: rgba(255, 255, 255, 0.05);
+  --fill2: rgba(255, 255, 255, 0.09);
+  --shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+  --field-a: rgba(var(--accent-rgb), 0.2);
+  --field-b: rgba(40, 110, 220, 0.16);
+  --field-c: rgba(var(--accent-rgb), 0.1);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-fg2: var(--fg2);
+  --color-fg3: var(--fg3);
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
+  --color-hairline: var(--hairline);
+  --color-fill: var(--fill);
+  --color-fill2: var(--fill2);
+  --color-accent: var(--accent);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.011em;
+  overflow: hidden;
+  transition: background-color 0.4s ease;
+}
+
+::selection {
+  background: rgba(var(--accent-rgb), 0.35);
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+  }
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Glass */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid var(--hairline);
+  box-shadow: inset 0 1px 0 var(--highlight), var(--shadow);
+}
+.glass-strong {
+  background: var(--glass-strong);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--hairline);
+  box-shadow: inset 0 1px 0 var(--highlight), var(--shadow);
+}
+.glass-solid {
+  background: var(--glass-solid);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--hairline);
+  box-shadow: inset 0 1px 0 var(--highlight), 0 30px 80px -20px rgba(0, 0, 0, 0.45);
+}
+.hair {
+  border: 1px solid var(--hairline);
+}
+
+/* Background colour fields */
+.fields {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.fields i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+.fields i:nth-child(1) {
+  width: 62vw;
+  height: 62vw;
+  left: -18vw;
+  top: -26vw;
+  background: radial-gradient(circle, var(--field-a), transparent 65%);
+  animation: drift1 48s ease-in-out infinite alternate;
+}
+.fields i:nth-child(2) {
+  width: 54vw;
+  height: 54vw;
+  right: -20vw;
+  bottom: -24vw;
+  background: radial-gradient(circle, var(--field-b), transparent 65%);
+  animation: drift2 60s ease-in-out infinite alternate;
+}
+.fields i:nth-child(3) {
+  width: 40vw;
+  height: 40vw;
+  left: 40vw;
+  top: 30vh;
+  background: radial-gradient(circle, var(--field-c), transparent 65%);
+  animation: drift3 72s ease-in-out infinite alternate;
+}
+@keyframes drift1 {
+  to {
+    transform: translate(8vw, 6vh) scale(1.08);
+  }
+}
+@keyframes drift2 {
+  to {
+    transform: translate(-10vw, -8vh) scale(1.12);
+  }
+}
+@keyframes drift3 {
+  to {
+    transform: translate(-12vw, 10vh) scale(0.9);
+  }
+}
+
+/* Skeleton shimmer */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--fill);
+}
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--fill2), transparent);
+  animation: shimmer 1s ease-in-out infinite;
+}
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Live pulse */
+.pulse {
+  position: relative;
+}
+.pulse::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.4;
+  animation: pulse 2s ease-out infinite;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Scrollbars */
+.scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--fill2) transparent;
+}
+.scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--fill2);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.noscroll {
+  scrollbar-width: none;
+}
+.noscroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Photo tile texture */
+.photo-grain {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* Then mode: marker board */
+.marker {
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+input[type='range'] {
+  accent-color: var(--accent);
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
